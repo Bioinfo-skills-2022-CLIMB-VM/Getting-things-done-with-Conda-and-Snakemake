@@ -3,7 +3,7 @@ This repository contains the presentation for the Conda and Snakemake session fo
 
 ## Getting started with Conda on the CLIMB-BD VM
 
-To initialise Conda
+To initialise conda
 ```
 conda init bash
 ```
@@ -121,6 +121,27 @@ rule fastqc
         "fastqc -o data -t {threads} {input}"
 ```
 Notice we have also added a directive for the number of threads.
+
+For information on how to build a workflow from rules see [here](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html)
+
+## Using Conda and Singularity with Snakemake
+Conda and Singularity can be used to manage the software dependencies of a Snakemake workflow. A global conda environment or Singularity image can be defined for the entire workflow or conda and Singularity directives can be added on a per rule basis, like so
+```
+sample_list = ['sampleName', 'sampleName2', 'sampleName3']
+
+rule fastqc
+    input:
+        expand(["{sample}_1.fq", "{sample}_2.fq"], sample=sample_list)
+    output:
+        expand(["data/{sample}_1_fastqc.html" , "data/{sample}_2_fastqc.html"], sample=sample_list)
+    threads: 4
+    conda: "envs/fastqc.yml"
+    container: "docker://quay.io/biocontainers/fastqc"
+    shell:
+        "fastqc -o data -t {threads} {input}"
+``` 
+On running the workflow, the flag `--use-conda` or `--use-singularity` is used to select either the conda environment(s) or Singularity container(s). Snakemake can also use an ad-hoc combination of conda environments with Singularity containers (i.e. it will build the conda environment in a container). For more on distribution and reproducibility with Snakemake see [here](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html)
+
 
 ## Snakemake Tutorials
 Tutorials for Snakemake can be found here: <br />
