@@ -2,16 +2,15 @@
 This repository contains the presentation for the Conda and Snakemake session for the CLIMB-BD Bioinformatics Skills for Microbial Genomics Workshop on the 2nd February 2022 along with supporting material.
 
 ## Getting started with Conda on the CLIMB-BD VM
-
-To initialise conda
+To get started with conda, you will first need to initialise conda. You only need to do this once. In this workshop two of you are sharing a VM under the same user, so only one of you needs to run this! You can tell if conda has already been initialised by running `conda activate base`. If you see a prompt telling you that your shell needs to be configured by running `conda init`, then run the following
 ```
 conda init bash
 ```
-Running this command will edit your .bashrc. You will need to reload .bashrc for the changes to take effect
+Running this command will edit your .bashrc. You will then need to reload .bashrc for the changes to take effect
 ```
 source ~/.bashrc
 ```
-You should see the `base` environment activated at the start of the command prompt
+You should see the `base` environment activated at the start of the command prompt.
 
 ## Working with Conda Environments
 The default conda environment called `base`. You should not use `base` for installing new software packages and instead you should create a new environment to keep software packages isolated from each other.
@@ -24,17 +23,22 @@ conda config --add channels defaults
 conda config --add channels bioconda
 conda config --add channels conda-forge
 ```
-Note the order in which you run these commands is important as this sets the order of priority for the channels (i.e. this sets `conda-forge` as the highest priority).
+Note the order in which you run these commands is important as this sets the order of priority for the channels (i.e. this sets `conda-forge` as the highest priority). You can check the order of the channels in your config by running `conda config --show channels`
 
 You can then use conda search to see which versions of shovill are available to install. This may take a few minutes to run.
 ```
 conda search shovill
 ```
-To create a new environment named `shovillenv` containing shovill v1.1.0
+Next we'll look at creating a new environment named `shovillenv` containing shovill v1.1.0. Note that as two of you are sharing the same VM, you may want to add your initials to all of the environment names in this tutorial to avoid clashing with the other person's work!, e.g. `conda create --name shovillenv-AP shovill=1.1.0`. If when creating an environment you see the error `CondaValueError: prefix already exists`, then there is already a conda environment using this name, so you will need to pick a different name!
+
 ```
 conda create --name shovillenv shovill=1.1.0
 ```
-Run the following to check shovill has installed correctly
+You will have to press `y` to proceed. When conda has finished setting up the environment, run the following to activate the environment
+```
+conda activate shovillenv
+```
+You can then run the following to check shovill has installed correctly
 ```
 shovill --check
 ```
@@ -50,7 +54,7 @@ conda info --envs
 ```
 To activate an environment
 ```
-conda activate myEnvName
+conda activate $myEnvName
 ```
 To deactivate your current conda environment
 ```
@@ -58,13 +62,13 @@ conda deactivate
 ```
 To install a new software package in your currently activated environment
 ```
-conda install packageName
+conda install $packageName
 ```
 
 ## Using YAML files to build Conda Environments
 Files called `environment.yml` can be used to create conda environments and share them with others.
 
-E.g. Let's create an `environment.yml` file that will install trimgalore. Open `nano environment.yml` and add the following
+E.g. Let's create an `environment.yml` file that will install trimgalore. Open `nano environment.yml` and add the following (again you may wish to add your initials to environment name to avoid clashing with the other person your sharing the VM with!)
 ```
 name: trim-galore
 
@@ -90,11 +94,20 @@ Mamba is a re-implementation of conda with faster dependency solving (i.e. it's 
 ```
 mamba create --name shovillenv2 shovill=1.1.0
 ```
+You can then use `conda activate shovillenv2` as before.
 
 ## Getting Started with Snakemake on the CLIMB-BD VM
 To use mamba to create a snakemake environment
 ```
 mamba create --name snakemake snakemake
+```
+and to activate
+```
+conda activate snakemake
+```
+You can find out more about the usage of snakemake by running
+```
+snakemake -h
 ```
 
 ## Snakemake Rules
