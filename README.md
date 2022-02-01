@@ -68,7 +68,7 @@ conda install $packageName
 ## Using YAML files to build Conda Environments
 Files called `environment.yml` can be used to create conda environments and share them with others.
 
-E.g. Let's create an `environment.yml` file that will install trimgalore. Open `nano environment.yml` and add the following (again you may wish to add your initials to environment name to avoid clashing with the other person your sharing the VM with!)
+E.g. Let's create an `environment.yml` file that will install trimgalore. Remember two of you are sharing the VM under the same user, so you should create a directory, e.g. `mkdir myDirectoryName` to save your YAML file, to avoid clashing with the other user. Open `nano environment.yml` and add the following (again you may wish to add your initials to environment name to avoid clashing with the other person your sharing the VM with!)
 ```
 name: trim-galore
 
